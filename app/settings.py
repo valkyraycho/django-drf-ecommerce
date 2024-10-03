@@ -19,7 +19,7 @@ ALLOWED_HOSTS: list[str] = []
 
 # Application definition
 
-INSTALLED_APPS = [
+INSTALLED_APPS: list[str] = [
     "django.contrib.admin",
     "django.contrib.auth",
     "django.contrib.contenttypes",
@@ -28,9 +28,18 @@ INSTALLED_APPS = [
     "django.contrib.staticfiles",
     # external packages
     "rest_framework",
+    "drf_spectacular",
     # internal apps
     "product.apps.ProductConfig",
 ]
+
+REST_FRAMEWORK = {
+    "DEFAULT_SCHEMA_CLASS": "drf_spectacular.openapi.AutoSchema",
+}
+
+SPECTACULAR_SETTINGS = {
+    "TITLE": "Django DRF Ecommerce",
+}
 
 MIDDLEWARE = [
     "django.middleware.security.SecurityMiddleware",

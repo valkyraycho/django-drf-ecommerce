@@ -153,3 +153,4 @@ dist/*.whl
 dist/*.tar.gz
 
 staticfiles
+schema.yaml
