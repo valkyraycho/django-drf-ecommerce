@@ -29,6 +29,7 @@ INSTALLED_APPS: list[str] = [
     # external packages
     "rest_framework",
     "drf_spectacular",
+    "mptt",
     # internal apps
     "product.apps.ProductConfig",
 ]
