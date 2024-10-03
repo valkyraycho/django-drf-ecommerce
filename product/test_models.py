@@ -1,19 +1,30 @@
 import pytest
-from django.db import models
+from factory.django import DjangoModelFactory
 
-from .models import Brand, Category, Product
+from .factories import BrandFactory, CategoryFactory, ProductFactory
+from .models import Product
 
 
 @pytest.mark.django_db
 @pytest.mark.parametrize(
-    ("model", "name"),
-    [(Category, "test_category"), (Brand, "test_brand"), (Product, "test_product")],
+    ("factory", "name"),
+    [
+        (CategoryFactory, "test_category"),
+        (BrandFactory, "test_brand"),
+        (ProductFactory, "test_product"),
+    ],
 )
-def test_str_method(model: models.Model, name: str) -> None:
-    if model == Product:
-        brand = Brand.objects.create(name="product_brand")
-        created_model = model.objects.create(name=name, brand=brand)
-        assert created_model.brand.__str__() == "product_brand"  # type: ignore
+def test_str_method(
+    factory: type[DjangoModelFactory],
+    name: str,
+    brand_factory: type[BrandFactory],
+) -> None:
+    if factory == ProductFactory:
+        brand = brand_factory(name="product_brand")
+        created_model: Product = factory(name=name, brand=brand)
+        assert created_model.brand.__str__() == "product_brand"
+        assert created_model.is_digital
     else:
-        created_model = model.objects.create(name=name)
+        created_model = factory(name=name)
+
     assert created_model.__str__() == name
